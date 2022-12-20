@@ -1,4 +1,7 @@
+﻿using FastMinimalAPI;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<FastMinimalAPIContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FastMinimalAPIContext") ?? throw new InvalidOperationException("Connection string 'FastMinimalAPIContext' not found.")));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,6 +38,8 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.MapHeroEndpoints();
 
 app.Run();
 
